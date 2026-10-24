@@ -17,23 +17,35 @@
             <section aria-label="Resumen del negocio" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 <a href="{{ route('productos.index') }}" class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-gray-200 transition hover:ring-indigo-300">
                     <p class="text-sm font-medium text-gray-500">Productos activos</p>
-                    <p class="mt-2 text-3xl font-semibold text-gray-900">{{ number_format($totalProductos) }}</p>
+                    <p class="mt-2 text-3xl font-semibold text-gray-900"
+                       x-data="animatedCounter({{ $totalProductos }})"
+                       x-init="start()"
+                       x-text="formatted">{{ number_format($totalProductos) }}</p>
                     <p class="mt-2 text-sm text-indigo-700">Consultar inventario</p>
                 </a>
                 <a href="{{ route('alertas.index') }}" class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-gray-200 transition hover:ring-indigo-300">
                     <p class="text-sm font-medium text-gray-500">Alertas pendientes</p>
-                    <p class="mt-2 text-3xl font-semibold {{ $alertasPendientes > 0 ? 'text-amber-700' : 'text-gray-900' }}">{{ number_format($alertasPendientes) }}</p>
+                    <p class="mt-2 text-3xl font-semibold {{ $alertasPendientes > 0 ? 'text-amber-700' : 'text-gray-900' }}"
+                       x-data="animatedCounter({{ $alertasPendientes }})"
+                       x-init="start()"
+                       x-text="formatted">{{ number_format($alertasPendientes) }}</p>
                     <p class="mt-2 text-sm text-indigo-700">Revisar alertas</p>
                 </a>
                 <a href="{{ route('ventas.index') }}" class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-gray-200 transition hover:ring-indigo-300">
                     <p class="text-sm font-medium text-gray-500">Ventas de hoy</p>
-                    <p class="mt-2 text-3xl font-semibold text-gray-900">S/ {{ number_format($montoVentasHoy, 2) }}</p>
-                    <p class="mt-2 text-sm text-gray-500">{{ $cantidadVentasHoy }} {{ $cantidadVentasHoy === 1 ? 'venta' : 'ventas' }}</p>
+                    <p class="mt-2 text-3xl font-semibold text-gray-900"
+                       x-data="animatedCounter({{ (float) $montoVentasHoy }}, 2, 'S/ ')"
+                       x-init="start()"
+                       x-text="formatted">S/ {{ number_format($montoVentasHoy, 2) }}</p>
+                    <p class="mt-2 text-sm text-gray-500"><span x-data="animatedCounter({{ $cantidadVentasHoy }})" x-init="start()" x-text="formatted">{{ $cantidadVentasHoy }}</span> {{ $cantidadVentasHoy === 1 ? 'venta' : 'ventas' }}</p>
                 </a>
                 <a href="{{ route('ventas.index') }}" class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-gray-200 transition hover:ring-indigo-300">
                     <p class="text-sm font-medium text-gray-500">Ventas del mes</p>
-                    <p class="mt-2 text-3xl font-semibold text-gray-900">S/ {{ number_format($montoVentasMes, 2) }}</p>
-                    <p class="mt-2 text-sm text-gray-500">{{ $cantidadVentasMes }} {{ $cantidadVentasMes === 1 ? 'venta' : 'ventas' }}</p>
+                    <p class="mt-2 text-3xl font-semibold text-gray-900"
+                       x-data="animatedCounter({{ (float) $montoVentasMes }}, 2, 'S/ ')"
+                       x-init="start()"
+                       x-text="formatted">S/ {{ number_format($montoVentasMes, 2) }}</p>
+                    <p class="mt-2 text-sm text-gray-500"><span x-data="animatedCounter({{ $cantidadVentasMes }})" x-init="start()" x-text="formatted">{{ $cantidadVentasMes }}</span> {{ $cantidadVentasMes === 1 ? 'venta' : 'ventas' }}</p>
                 </a>
             </section>
 
@@ -101,13 +113,29 @@
                                     $agotado = (float) $producto->stock_actual <= 0;
                                     $stockBajo = (float) $producto->stock_actual > 0 && (float) $producto->stock_actual <= (float) $producto->stock_minimo;
                                     $porVencer = $producto->fecha_vencimiento && $producto->fecha_vencimiento->lte(today()->addDays(7));
+                                    $stockPorcentaje = (float) $producto->stock_minimo > 0
+                                        ? min(100, max(0, (float) $producto->stock_actual / (float) $producto->stock_minimo * 100))
+                                        : ((float) $producto->stock_actual > 0 ? 100 : 0);
                                 @endphp
                                 <tr class="transition-colors hover:bg-gray-50">
                                     <td class="px-5 py-4">
                                         <a href="{{ route('productos.show', $producto) }}" class="font-medium text-indigo-700 hover:underline">{{ $producto->nombre }}</a>
                                         <p class="mt-1 text-xs text-gray-500">SKU: {{ $producto->sku }}</p>
                                     </td>
-                                    <td class="px-5 py-4 font-medium {{ $agotado || $stockBajo ? 'text-red-700' : 'text-gray-700' }}">{{ $producto->stock_actual }} {{ $producto->unidad_medida }}</td>
+                                    <td class="min-w-40 px-5 py-4">
+                                        <span class="font-medium {{ $agotado ? 'text-red-700' : ($stockBajo ? 'text-orange-700' : 'text-gray-700') }}">{{ $producto->stock_actual }} {{ $producto->unidad_medida }}</span>
+                                        <div class="mt-2 h-1.5 overflow-hidden rounded-full bg-gray-100"
+                                             x-data="{ llenado: false }"
+                                             x-init="requestAnimationFrame(() => llenado = true)"
+                                             role="progressbar"
+                                             aria-label="Nivel de stock de {{ $producto->nombre }}"
+                                             aria-valuemin="0"
+                                             aria-valuemax="100"
+                                             aria-valuenow="{{ round($stockPorcentaje) }}">
+                                            <span class="block h-full rounded-full transition-[width] duration-300 ease-out motion-reduce:transition-none {{ $agotado ? 'bg-red-500' : ($stockBajo ? 'bg-orange-500' : 'bg-emerald-500') }}"
+                                                  :style="`width: ${llenado ? {{ $stockPorcentaje }} : 0}%`"></span>
+                                        </div>
+                                    </td>
                                     <td class="px-5 py-4 text-gray-700">{{ $producto->stock_minimo }} {{ $producto->unidad_medida }}</td>
                                     <td class="px-5 py-4 text-gray-700">{{ $producto->fecha_vencimiento?->format('d/m/Y') ?: '—' }}</td>
                                     <td class="px-5 py-4">

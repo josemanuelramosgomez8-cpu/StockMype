@@ -11,7 +11,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="bg-white font-sans text-gray-900 antialiased">
+    <body class="landing-page bg-white font-sans text-gray-900 antialiased">
         <div x-data="{ menuOpen: false }" class="min-h-screen overflow-hidden">
             <header class="relative z-20 border-b border-gray-100 bg-white">
                 <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8" aria-label="Navegación principal">
@@ -61,7 +61,7 @@
             </header>
 
             <main>
-                <section class="relative isolate">
+                <section class="relative isolate" data-reveal>
                     <div class="absolute inset-0 -z-10 bg-gradient-to-b from-emerald-50/80 via-white to-white"></div>
                     <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-24">
                         <div class="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
@@ -103,6 +103,15 @@
                         <div class="mx-auto w-full max-w-xl lg:ml-auto lg:mr-0">
                             <div class="relative">
                                 <div class="absolute -inset-4 -z-10 rounded-[2rem] bg-emerald-100/70 blur-2xl"></div>
+                                <div data-image-slot class="relative mb-4 aspect-[16/5] overflow-hidden rounded-2xl border border-emerald-100 bg-emerald-50 shadow-sm">
+                                    <div data-image-fallback class="absolute inset-0 flex items-center justify-center gap-3 bg-gradient-to-r from-emerald-50 to-teal-100 px-4 text-emerald-800">
+                                        <svg class="h-8 w-8 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M3 20h18M5 20V8l7-4 7 4v12M9 20v-6h6v6M8 10h.01M16 10h.01" />
+                                        </svg>
+                                        <span class="text-sm font-semibold">Una vista de tu negocio, desde cualquier lugar</span>
+                                    </div>
+                                    <img data-slot-image src="{{ asset('img/hero-stockmype.jpg') }}" alt="Emprendedora de Tumbes revisando el inventario de su negocio" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 motion-reduce:transition-none">
+                                </div>
                                 <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl shadow-emerald-900/10">
                                     <div class="flex items-center justify-between border-b border-gray-100 px-4 py-3.5 sm:px-6">
                                         <div class="flex items-center gap-2.5">
@@ -215,7 +224,7 @@
                     </div>
                 </section>
 
-                <section class="border-t border-gray-100 bg-white py-16 sm:py-20" aria-labelledby="beneficios-titulo">
+                <section class="border-t border-gray-100 bg-white py-16 sm:py-20" aria-labelledby="beneficios-titulo" data-reveal>
                     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-2xl text-center">
                             <p class="text-sm font-semibold text-emerald-700">Hecho para ayudarte</p>
@@ -264,7 +273,7 @@
                     </div>
                 </section>
 
-                <section class="bg-gray-50 py-16 sm:py-20" aria-labelledby="como-funciona-titulo">
+                <section class="bg-gray-50 py-16 sm:py-20" aria-labelledby="como-funciona-titulo" data-reveal>
                     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-2xl text-center">
                             <p class="text-sm font-semibold text-emerald-700">Empieza sin complicaciones</p>
@@ -291,7 +300,7 @@
                     </div>
                 </section>
 
-                <section class="bg-white py-16 sm:py-20" aria-labelledby="rubros-titulo">
+                <section class="bg-white py-16 sm:py-20" aria-labelledby="rubros-titulo" data-reveal>
                     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-2xl text-center">
                             <p class="text-sm font-semibold text-emerald-700">Cerca de tu realidad</p>
@@ -300,6 +309,15 @@
                         </div>
                         <div class="mx-auto mt-10 grid max-w-4xl gap-5 md:grid-cols-2 lg:mt-14">
                             <article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg sm:p-8">
+                                <div data-image-slot class="relative mb-5 aspect-[16/9] overflow-hidden rounded-xl bg-orange-50">
+                                    <div data-image-fallback class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-orange-50 to-amber-100 text-orange-800">
+                                        <svg class="h-9 w-9" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M3 20h18M5 20V8l7-4 7 4v12M9 20v-6h6v6M8 10h.01M16 10h.01" />
+                                        </svg>
+                                        <span class="text-xs font-semibold">Imagen de gastronomía local</span>
+                                    </div>
+                                    <img data-slot-image src="{{ asset('img/rubro-gastronomia.jpg') }}" alt="Plato de ceviche de un restaurante de Tumbes" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 motion-reduce:transition-none">
+                                </div>
                                 <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-50 text-orange-700">
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4M8 9v.01M8 12v.01M8 15v.01M8 18v.01M14 9v.01M14 12v.01M14 15v.01M14 18v.01" />
@@ -314,6 +332,15 @@
                                 </div>
                             </article>
                             <article class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg sm:p-8">
+                                <div data-image-slot class="relative mb-5 aspect-[16/9] overflow-hidden rounded-xl bg-blue-50">
+                                    <div data-image-fallback class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-blue-50 to-cyan-100 text-blue-800">
+                                        <svg class="h-9 w-9" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M3 10h18M5 10V6l2-3h10l2 3v4m-14 0v10h14V10M9 20v-6h6v6" />
+                                        </svg>
+                                        <span class="text-xs font-semibold">Imagen de tienda o minimarket</span>
+                                    </div>
+                                    <img data-slot-image src="{{ asset('img/rubro-retail.jpg') }}" alt="Estanterías organizadas de una tienda de Tumbes" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-300 motion-reduce:transition-none">
+                                </div>
                                 <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-700">
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10h18M5 10V6l2-3h10l2 3v4m-14 0v10h14V10M9 20v-6h6v6M3 10a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0" />
@@ -331,7 +358,7 @@
                     </div>
                 </section>
 
-                <section class="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8" aria-labelledby="cta-titulo">
+                <section class="px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8" aria-labelledby="cta-titulo" data-reveal>
                     <div class="mx-auto max-w-7xl overflow-hidden rounded-3xl bg-emerald-700 px-6 py-12 text-center shadow-xl shadow-emerald-900/10 sm:px-10 sm:py-16">
                         <div class="mx-auto max-w-2xl">
                             <p class="text-sm font-semibold text-emerald-100">Tu negocio merece más tranquilidad</p>

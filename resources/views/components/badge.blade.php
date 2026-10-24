@@ -15,5 +15,11 @@
 @endphp
 
 <span {{ $attributes->class(['inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset', $clasesVariante]) }}>
+    @if ($variant === 'agotado')
+        <span class="relative mr-1.5 inline-flex h-2 w-2 shrink-0" aria-hidden="true">
+            <span class="stock-pulse absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-70 motion-reduce:animate-none"></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-red-600"></span>
+        </span>
+    @endif
     {{ $slot }}
 </span>
