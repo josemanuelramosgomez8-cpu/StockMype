@@ -4,7 +4,7 @@
             <h1 class="text-xl font-semibold text-gray-800">Detalle del producto</h1>
             <div class="flex gap-3">
                 @if (auth()->user()->esDueno())
-                    <a href="{{ route('productos.edit', $producto) }}" class="rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-600">Editar</a>
+                    <a href="{{ route('productos.edit', $producto) }}" class="rounded-md bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600">Editar</a>
                 @endif
                 <a href="{{ route('productos.index') }}" class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Volver al inventario</a>
             </div>

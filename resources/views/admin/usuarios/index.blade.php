@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <h1 class="text-xl font-semibold text-gray-800">Usuarios del sistema</h1>
-            <a href="{{ route('admin.usuarios.create') }}" class="rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-600">Nuevo usuario</a>
+            <a href="{{ route('admin.usuarios.create') }}" class="rounded-md bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600">Nuevo usuario</a>
         </div>
     </x-slot>
 
@@ -14,23 +14,23 @@
 
             <form method="GET" action="{{ route('admin.usuarios.index') }}" class="grid gap-3 rounded-lg bg-white p-4 shadow-sm sm:grid-cols-2 lg:grid-cols-5">
                 <label class="sr-only" for="buscar">Buscar usuario</label>
-                <input id="buscar" name="buscar" value="{{ request('buscar') }}" placeholder="Buscar nombre o correo" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <input id="buscar" name="buscar" value="{{ request('buscar') }}" placeholder="Buscar nombre o correo" class="rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                 <label class="sr-only" for="rol">Filtrar por rol</label>
-                <select id="rol" name="rol" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <select id="rol" name="rol" class="rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                     <option value="">Todos los roles</option>
                     <option value="administrador" @selected(request('rol') === 'administrador')>Administrador</option>
                     <option value="dueno" @selected(request('rol') === 'dueno')>Dueño</option>
                     <option value="empleado" @selected(request('rol') === 'empleado')>Empleado</option>
                 </select>
                 <label class="sr-only" for="negocio_id">Filtrar por negocio</label>
-                <select id="negocio_id" name="negocio_id" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <select id="negocio_id" name="negocio_id" class="rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                     <option value="">Todos los negocios</option>
                     @foreach ($negocios as $negocio)
                         <option value="{{ $negocio->id }}" @selected((string) request('negocio_id') === (string) $negocio->id)>{{ $negocio->nombre }}</option>
                     @endforeach
                 </select>
                 <label class="sr-only" for="estado">Filtrar por estado</label>
-                <select id="estado" name="estado" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <select id="estado" name="estado" class="rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                     <option value="">Todos los estados</option>
                     <option value="activo" @selected(request('estado') === 'activo')>Activos</option>
                     <option value="suspendido" @selected(request('estado') === 'suspendido')>Suspendidos</option>
@@ -74,7 +74,7 @@
                                     </td>
                                     <td class="px-5 py-4">
                                         <div class="flex justify-end gap-3">
-                                            <a href="{{ route('admin.usuarios.edit', $usuario) }}" class="font-medium text-indigo-700 hover:underline">Editar</a>
+                                            <a href="{{ route('admin.usuarios.edit', $usuario) }}" class="font-medium text-emerald-700 hover:underline">Editar</a>
                                             @if (! auth()->user()->is($usuario))
                                                 <form method="POST" action="{{ route('admin.usuarios.estado', $usuario) }}" onsubmit="return confirm('¿{{ $usuario->activo ? 'Suspender' : 'activar' }} esta cuenta?')">
                                                     @csrf

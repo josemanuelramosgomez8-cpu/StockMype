@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <h1 class="text-xl font-semibold text-gray-800">Proveedores</h1>
-            <a href="{{ route('proveedores.create') }}" class="rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-600">Nuevo proveedor</a>
+            <a href="{{ route('proveedores.create') }}" class="rounded-md bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600">Nuevo proveedor</a>
         </div>
     </x-slot>
 
@@ -35,7 +35,7 @@
                                     <td class="px-5 py-4 text-gray-600">{{ $proveedor->productos_count }}</td>
                                     <td class="px-5 py-4">
                                         <div class="flex justify-end gap-3">
-                                            <a class="font-medium text-indigo-700 hover:underline" href="{{ route('proveedores.edit', $proveedor) }}">Editar</a>
+                                            <a class="font-medium text-emerald-700 hover:underline" href="{{ route('proveedores.edit', $proveedor) }}">Editar</a>
                                             @if ($proveedor->productos_count === 0)
                                                 <form method="POST" action="{{ route('proveedores.destroy', $proveedor) }}" onsubmit="return confirm('¿Eliminar este proveedor?')">
                                                     @csrf

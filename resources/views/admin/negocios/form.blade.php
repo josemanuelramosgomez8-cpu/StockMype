@@ -27,7 +27,7 @@
                 <div class="grid gap-5 sm:grid-cols-2">
                     <div>
                         <x-input-label for="rubro" value="Rubro" />
-                        <select id="rubro" name="rubro" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <select id="rubro" name="rubro" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                             <option value="gastronomia" @selected(old('rubro', $negocio->rubro) === 'gastronomia')>Gastronomía</option>
                             <option value="retail" @selected(old('rubro', $negocio->rubro) === 'retail')>Retail</option>
                         </select>

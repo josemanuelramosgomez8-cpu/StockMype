@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <h1 class="text-xl font-semibold text-gray-800">Negocios registrados</h1>
-            <a href="{{ route('admin.negocios.create') }}" class="rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-600">Nuevo negocio</a>
+            <a href="{{ route('admin.negocios.create') }}" class="rounded-md bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600">Nuevo negocio</a>
         </div>
     </x-slot>
 
@@ -14,15 +14,15 @@
 
             <form method="GET" action="{{ route('admin.negocios.index') }}" class="flex flex-col gap-3 rounded-lg bg-white p-4 shadow-sm sm:flex-row">
                 <label class="sr-only" for="buscar">Buscar negocio por nombre o RUC</label>
-                <input id="buscar" name="buscar" value="{{ request('buscar') }}" placeholder="Buscar por negocio o RUC" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:flex-1">
+                <input id="buscar" name="buscar" value="{{ request('buscar') }}" placeholder="Buscar por negocio o RUC" class="w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:flex-1">
                 <label class="sr-only" for="rubro">Filtrar por rubro</label>
-                <select id="rubro" name="rubro" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <select id="rubro" name="rubro" class="rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                     <option value="">Todos los rubros</option>
                     <option value="gastronomia" @selected(request('rubro') === 'gastronomia')>Gastronomía</option>
                     <option value="retail" @selected(request('rubro') === 'retail')>Retail</option>
                 </select>
                 <label class="sr-only" for="estado">Filtrar por estado</label>
-                <select id="estado" name="estado" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <select id="estado" name="estado" class="rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                     <option value="">Todos los estados</option>
                     <option value="activo" @selected(request('estado') === 'activo')>Activos</option>
                     <option value="suspendido" @selected(request('estado') === 'suspendido')>Suspendidos</option>
@@ -62,7 +62,7 @@
                                     </td>
                                     <td class="px-5 py-4">
                                         <div class="flex justify-end gap-3">
-                                            <a href="{{ route('admin.negocios.edit', $negocio) }}" class="font-medium text-indigo-700 hover:underline">Editar</a>
+                                            <a href="{{ route('admin.negocios.edit', $negocio) }}" class="font-medium text-emerald-700 hover:underline">Editar</a>
                                             <form method="POST" action="{{ route('admin.negocios.estado', $negocio) }}" onsubmit="return confirm('¿{{ $negocio->activo ? 'Suspender' : 'activar' }} este negocio?')">
                                                 @csrf
                                                 @method('PATCH')

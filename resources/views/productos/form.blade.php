@@ -26,14 +26,14 @@
 
                 <div>
                     <x-input-label for="descripcion" value="Descripción (opcional)" />
-                    <textarea id="descripcion" name="descripcion" rows="3" maxlength="5000" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('descripcion', $producto->descripcion) }}</textarea>
+                    <textarea id="descripcion" name="descripcion" rows="3" maxlength="5000" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">{{ old('descripcion', $producto->descripcion) }}</textarea>
                     <x-input-error :messages="$errors->get('descripcion')" class="mt-2" />
                 </div>
 
                 <div class="grid gap-5 sm:grid-cols-2">
                     <div>
                         <x-input-label for="categoria_id" value="Categoría" />
-                        <select id="categoria_id" name="categoria_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <select id="categoria_id" name="categoria_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                             <option value="">Sin categoría</option>
                             @foreach ($categorias as $categoria)
                                 <option value="{{ $categoria->id }}" @selected((string) old('categoria_id', $producto->categoria_id) === (string) $categoria->id)>{{ $categoria->nombre }}</option>
@@ -43,7 +43,7 @@
                     </div>
                     <div>
                         <x-input-label for="proveedor_id" value="Proveedor" />
-                        <select id="proveedor_id" name="proveedor_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <select id="proveedor_id" name="proveedor_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                             <option value="">Sin proveedor</option>
                             @foreach ($proveedores as $proveedor)
                                 <option value="{{ $proveedor->id }}" @selected((string) old('proveedor_id', $producto->proveedor_id) === (string) $proveedor->id)>{{ $proveedor->nombre }}</option>
@@ -96,7 +96,7 @@
                         <x-input-error :messages="$errors->get('fecha_vencimiento')" class="mt-2" />
                     </div>
                     <label class="mt-7 inline-flex items-center gap-2 text-sm text-gray-700">
-                        <input type="checkbox" name="activo" value="1" @checked(old('activo', $producto->exists ? $producto->activo : true)) class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                        <input type="checkbox" name="activo" value="1" @checked(old('activo', $producto->exists ? $producto->activo : true)) class="rounded border-gray-300 text-emerald-600 shadow-sm focus:ring-emerald-500">
                         Producto activo
                     </label>
                 </div>

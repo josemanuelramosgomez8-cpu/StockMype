@@ -21,7 +21,7 @@
                             <h2 class="font-semibold text-gray-900">Productos de la venta</h2>
                             <p class="text-sm text-gray-500">El precio se toma del catálogo y el stock se valida al confirmar.</p>
                         </div>
-                        <button id="agregar-linea" type="button" class="rounded-md border border-indigo-700 px-3 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-50" @disabled($productos->isEmpty())>Agregar producto</button>
+                        <button id="agregar-linea" type="button" class="rounded-md border border-emerald-700 px-3 py-2 text-sm font-medium text-emerald-700 hover:bg-emerald-50" @disabled($productos->isEmpty())>Agregar producto</button>
                     </div>
                     <div id="lineas-productos" class="space-y-3"></div>
                     <x-input-error :messages="$errors->get('productos.*.producto_id')" class="mt-2" />
@@ -31,13 +31,13 @@
 
                 <div>
                     <x-input-label for="observaciones" value="Observaciones (opcional)" />
-                    <textarea id="observaciones" name="observaciones" rows="3" maxlength="2000" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('observaciones') }}</textarea>
+                    <textarea id="observaciones" name="observaciones" rows="3" maxlength="2000" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">{{ old('observaciones') }}</textarea>
                     <x-input-error :messages="$errors->get('observaciones')" class="mt-2" />
                 </div>
 
                 <div class="flex justify-end gap-3 border-t border-gray-100 pt-4">
                     <a href="{{ route('ventas.index') }}" class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Cancelar</a>
-                    <button type="submit" @disabled($productos->isEmpty()) class="rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-600 disabled:cursor-not-allowed disabled:opacity-50">Confirmar venta</button>
+                    <button type="submit" @disabled($productos->isEmpty()) class="rounded-md bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-50">Confirmar venta</button>
                 </div>
             </form>
         </div>
@@ -61,7 +61,7 @@
             const select = document.createElement('select');
             select.name = `productos[${indice}][producto_id]`;
             select.required = true;
-            select.className = 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500';
+            select.className = 'block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500';
             const opcionInicial = document.createElement('option');
             opcionInicial.value = '';
             opcionInicial.textContent = 'Selecciona un producto';
@@ -101,7 +101,7 @@
                 input.step = paso;
                 input.value = valor;
                 input.required = requerido;
-                input.className = 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500';
+                input.className = 'block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500';
                 if (nombre === 'cantidad') {
                     input.min = '0.001';
                 }

@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <h1 class="text-xl font-semibold text-gray-800">Movimientos de inventario</h1>
-            <a href="{{ route('movimientos.create') }}" class="rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-600">Registrar movimiento</a>
+            <a href="{{ route('movimientos.create') }}" class="rounded-md bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600">Registrar movimiento</a>
         </div>
     </x-slot>
 
@@ -31,7 +31,7 @@
                                     <td class="px-5 py-4 text-gray-700">{{ $movimiento->cantidad }}</td>
                                     <td class="px-5 py-4 text-gray-700">{{ $movimiento->stock_resultante }}</td>
                                     <td class="px-5 py-4 text-gray-600">{{ $movimiento->user?->name ?? 'Usuario eliminado' }}</td>
-                                    <td class="px-5 py-4 text-right"><a href="{{ route('movimientos.show', $movimiento) }}" class="font-medium text-indigo-700 hover:underline">Ver</a></td>
+                                    <td class="px-5 py-4 text-right"><a href="{{ route('movimientos.show', $movimiento) }}" class="font-medium text-emerald-700 hover:underline">Ver</a></td>
                                 </tr>
                             @empty
                                 <tr><td colspan="7" class="p-3"><x-empty-state title="Aún no hay movimientos registrados." /></td></tr>

@@ -3,7 +3,7 @@
         <div class="flex flex-wrap items-center justify-between gap-3">
             <h1 class="text-xl font-semibold text-gray-800">Productos</h1>
             @if (auth()->user()->esDueno())
-                <a href="{{ route('productos.create') }}" class="rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-600">Nuevo producto</a>
+                <a href="{{ route('productos.create') }}" class="rounded-md bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600">Nuevo producto</a>
             @endif
         </div>
     </x-slot>
@@ -12,16 +12,16 @@
         <div class="mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
             <form method="GET" action="{{ route('productos.index') }}" class="flex flex-col gap-3 rounded-lg bg-white p-4 shadow-sm sm:flex-row">
                 <label class="sr-only" for="buscar">Buscar producto</label>
-                <input id="buscar" name="buscar" value="{{ request('buscar') }}" placeholder="Buscar por nombre o SKU" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:flex-1">
+                <input id="buscar" name="buscar" value="{{ request('buscar') }}" placeholder="Buscar por nombre o SKU" class="w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:flex-1">
                 <label class="sr-only" for="estado">Estado del producto</label>
-                <select id="estado" name="estado" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <select id="estado" name="estado" class="rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                     <option value="">Todos los estados</option>
                     <option value="activos" @selected(request('estado') === 'activos')>Activos</option>
                     <option value="inactivos" @selected(request('estado') === 'inactivos')>Inactivos</option>
                 </select>
                 <button class="rounded-md bg-gray-800 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700" type="submit">Buscar</button>
                 @if (request()->filled('buscar') || request()->filled('estado'))
-                    <a class="self-center text-sm text-indigo-700 hover:underline" href="{{ route('productos.index') }}">Limpiar</a>
+                    <a class="self-center text-sm text-emerald-700 hover:underline" href="{{ route('productos.index') }}">Limpiar</a>
                 @endif
             </form>
 
@@ -42,7 +42,7 @@
                             @forelse ($productos as $producto)
                                 <tr class="transition-colors hover:bg-gray-50">
                                     <td class="px-5 py-4">
-                                        <a href="{{ route('productos.show', $producto) }}" class="font-medium text-indigo-700 hover:underline">{{ $producto->nombre }}</a>
+                                        <a href="{{ route('productos.show', $producto) }}" class="font-medium text-emerald-700 hover:underline">{{ $producto->nombre }}</a>
                                         <div class="mt-1 text-xs text-gray-500">SKU: {{ $producto->sku }}</div>
                                     </td>
                                     <td class="px-5 py-4 text-gray-600">{{ $producto->categoria?->nombre ?: 'Sin categoría' }}</td>
@@ -61,9 +61,9 @@
                                     </td>
                                     <td class="px-5 py-4">
                                         <div class="flex justify-end gap-3">
-                                            <a class="font-medium text-indigo-700 hover:underline" href="{{ route('productos.show', $producto) }}">Ver</a>
+                                            <a class="font-medium text-emerald-700 hover:underline" href="{{ route('productos.show', $producto) }}">Ver</a>
                                             @if (auth()->user()->esDueno())
-                                                <a class="font-medium text-indigo-700 hover:underline" href="{{ route('productos.edit', $producto) }}">Editar</a>
+                                                <a class="font-medium text-emerald-700 hover:underline" href="{{ route('productos.edit', $producto) }}">Editar</a>
                                                 <form method="POST" action="{{ route('productos.destroy', $producto) }}" onsubmit="return confirm('¿Enviar este producto a la papelera?')">
                                                     @csrf
                                                     @method('DELETE')

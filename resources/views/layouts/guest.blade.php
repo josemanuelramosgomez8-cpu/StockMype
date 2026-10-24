@@ -18,7 +18,7 @@
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
             <div>
                 <a href="/">
-                    <span class="text-2xl font-bold text-indigo-700">StockMype</span>
+                    <span class="text-2xl font-bold text-emerald-700">StockMype</span>
                 </a>
             </div>
 

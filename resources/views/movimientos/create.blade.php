@@ -13,7 +13,7 @@
                 @csrf
                 <div>
                     <x-input-label for="producto_id" value="Producto" />
-                    <select id="producto_id" name="producto_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                    <select id="producto_id" name="producto_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" required>
                         <option value="">Selecciona un producto</option>
                         @foreach ($productos as $producto)
                             <option value="{{ $producto->id }}" @selected(old('producto_id', $productoSeleccionado) == $producto->id)>
@@ -26,7 +26,7 @@
 
                 <div>
                     <x-input-label for="tipo" value="Tipo de movimiento" />
-                    <select id="tipo" name="tipo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                    <select id="tipo" name="tipo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" required>
                         <option value="entrada" @selected(old('tipo') === 'entrada')>Entrada — suma unidades al stock</option>
                         <option value="salida" @selected(old('tipo') === 'salida')>Salida — resta unidades del stock</option>
                         <option value="ajuste" @selected(old('tipo') === 'ajuste')>Ajuste — establece la cantidad final contada</option>
@@ -43,13 +43,13 @@
 
                 <div>
                     <x-input-label for="motivo" value="Motivo" />
-                    <textarea id="motivo" name="motivo" rows="3" maxlength="255" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Ej.: compra a proveedor, merma o conteo físico">{{ old('motivo') }}</textarea>
+                    <textarea id="motivo" name="motivo" rows="3" maxlength="255" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500" placeholder="Ej.: compra a proveedor, merma o conteo físico">{{ old('motivo') }}</textarea>
                     <x-input-error :messages="$errors->get('motivo')" class="mt-2" />
                 </div>
 
                 <div class="flex justify-end gap-3 border-t border-gray-100 pt-4">
                     <a href="{{ route('movimientos.index') }}" class="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Cancelar</a>
-                    <button type="submit" @disabled($productos->isEmpty()) class="rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-600 disabled:cursor-not-allowed disabled:opacity-50">Guardar movimiento</button>
+                    <button type="submit" @disabled($productos->isEmpty()) class="rounded-md bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-50">Guardar movimiento</button>
                 </div>
             </form>
         </div>

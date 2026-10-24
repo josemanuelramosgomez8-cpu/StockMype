@@ -34,7 +34,7 @@
                 @else
                     <div>
                         <x-input-label for="rol" value="Rol del usuario" />
-                        <select id="rol" name="rol" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <select id="rol" name="rol" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                             <option value="administrador" @selected(old('rol', $usuario->rol) === 'administrador')>Administrador del sistema</option>
                             <option value="dueno" @selected(old('rol', $usuario->rol) === 'dueno')>Dueño de negocio</option>
                             <option value="empleado" @selected(old('rol', $usuario->rol) === 'empleado')>Empleado</option>
@@ -44,7 +44,7 @@
 
                     <div>
                         <x-input-label for="negocio_id" value="Negocio" />
-                        <select id="negocio_id" name="negocio_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <select id="negocio_id" name="negocio_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                             <option value="">Sin negocio (solo administradores)</option>
                             @foreach ($negocios as $negocio)
                                 <option value="{{ $negocio->id }}" @selected((string) old('negocio_id', $usuario->negocio_id) === (string) $negocio->id)>{{ $negocio->nombre }}</option>

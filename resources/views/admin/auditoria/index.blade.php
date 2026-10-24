@@ -7,9 +7,9 @@
         <div class="mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
             <form method="GET" action="{{ route('admin.auditoria.index') }}" class="grid gap-3 rounded-lg bg-white p-4 shadow-sm sm:grid-cols-3">
                 <label class="sr-only" for="buscar">Buscar en la auditoría</label>
-                <input id="buscar" name="buscar" value="{{ request('buscar') }}" placeholder="Buscar descripción o administrador" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <input id="buscar" name="buscar" value="{{ request('buscar') }}" placeholder="Buscar descripción o administrador" class="rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                 <label class="sr-only" for="evento">Filtrar por evento</label>
-                <select id="evento" name="evento" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                <select id="evento" name="evento" class="rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500">
                     <option value="">Todos los eventos</option>
                     @foreach ($eventos as $evento)
                         <option value="{{ $evento }}" @selected(request('evento') === $evento)>{{ str_replace('.', ' / ', $evento) }}</option>

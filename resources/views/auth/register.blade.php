@@ -13,7 +13,7 @@
 
         <div class="mt-4">
             <x-input-label for="rubro" value="Rubro del negocio" />
-            <select id="rubro" name="rubro" required class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+            <select id="rubro" name="rubro" required class="block mt-1 w-full border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-md shadow-sm">
                 <option value="">Selecciona una opción</option>
                 <option value="gastronomia" @selected(old('rubro') === 'gastronomia')>Gastronomía</option>
                 <option value="retail" @selected(old('rubro') === 'retail')>Retail / tienda</option>
@@ -61,7 +61,7 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500" href="{{ route('login') }}">
                 ¿Ya tienes cuenta? Inicia sesión
             </a>
 

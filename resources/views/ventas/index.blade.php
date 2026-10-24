@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <h1 class="text-xl font-semibold text-gray-800">Ventas</h1>
-            <a href="{{ route('ventas.create') }}" class="rounded-md bg-indigo-700 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-600">Registrar venta</a>
+            <a href="{{ route('ventas.create') }}" class="rounded-md bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-600">Registrar venta</a>
         </div>
     </x-slot>
 
@@ -29,7 +29,7 @@
                                     <td class="px-5 py-4 text-gray-600">{{ $venta->user?->name ?? 'Usuario eliminado' }}</td>
                                     <td class="px-5 py-4"><x-badge variant="success">{{ ucfirst($venta->estado) }}</x-badge></td>
                                     <td class="whitespace-nowrap px-5 py-4 text-right font-medium text-gray-900">S/ {{ number_format((float) $venta->total, 2) }}</td>
-                                    <td class="px-5 py-4 text-right"><a href="{{ route('ventas.show', $venta) }}" class="font-medium text-indigo-700 hover:underline">Ver</a></td>
+                                    <td class="px-5 py-4 text-right"><a href="{{ route('ventas.show', $venta) }}" class="font-medium text-emerald-700 hover:underline">Ver</a></td>
                                 </tr>
                             @empty
                                 <tr><td colspan="6" class="p-3"><x-empty-state title="Aún no hay ventas registradas." /></td></tr>

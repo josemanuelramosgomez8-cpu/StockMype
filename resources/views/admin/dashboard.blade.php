@@ -17,19 +17,19 @@
                         ['Dueños', $totalDueno, route('admin.usuarios.index', ['rol' => 'dueno'])],
                         ['Empleados', $totalEmpleados, route('admin.usuarios.index', ['rol' => 'empleado'])],
                     ] as [$titulo, $total, $enlace])
-                        <a href="{{ $enlace }}" class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-gray-200 transition hover:ring-indigo-300">
+                        <a href="{{ $enlace }}" class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-gray-200 transition hover:ring-emerald-300">
                             <p class="text-sm font-medium text-gray-500">{{ $titulo }}</p>
                             <p class="mt-2 text-3xl font-semibold text-gray-900">{{ $total }}</p>
-                            <p class="mt-2 text-sm text-indigo-700">Ver listado</p>
+                            <p class="mt-2 text-sm text-emerald-700">Ver listado</p>
                         </a>
                     @endforeach
                 </div>
 
                 <div class="grid gap-4 sm:grid-cols-2">
-                    <a href="{{ route('admin.negocios.create') }}" class="rounded-lg bg-indigo-700 p-5 font-semibold text-white hover:bg-indigo-600">
+                    <a href="{{ route('admin.negocios.create') }}" class="rounded-lg bg-emerald-700 p-5 font-semibold text-white hover:bg-emerald-600">
                         Registrar un negocio
                     </a>
-                    <a href="{{ route('admin.usuarios.create') }}" class="rounded-lg bg-white p-5 font-semibold text-indigo-700 shadow-sm ring-1 ring-gray-200 hover:bg-gray-50">
+                    <a href="{{ route('admin.usuarios.create') }}" class="rounded-lg bg-white p-5 font-semibold text-emerald-700 shadow-sm ring-1 ring-gray-200 hover:bg-gray-50">
                         Crear un usuario
                     </a>
                 </div>
@@ -40,7 +40,7 @@
                             <h2 class="font-semibold text-gray-900">Actividad administrativa reciente</h2>
                             <p class="mt-1 text-sm text-gray-500">Cambios de cuentas y negocios; no incluye datos comerciales.</p>
                         </div>
-                        <a href="{{ route('admin.auditoria.index') }}" class="text-sm font-medium text-indigo-700 hover:underline">Ver auditoría completa</a>
+                        <a href="{{ route('admin.auditoria.index') }}" class="text-sm font-medium text-emerald-700 hover:underline">Ver auditoría completa</a>
                     </div>
                     <div class="divide-y divide-gray-100">
                         @forelse ($actividadReciente as $registro)
