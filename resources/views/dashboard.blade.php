@@ -49,14 +49,10 @@
                     <script type="application/json" id="ventas-por-dia-data">@json($ventasPorDia)</script>
                 </div>
 
-                <div class="rounded-lg bg-white p-5 shadow-sm ring-1 ring-gray-200 lg:col-span-2">
-                    <div class="mb-4 flex items-center justify-between gap-3">
-                        <div>
-                            <h2 class="font-semibold text-gray-900">Más vendidos del mes</h2>
-                            <p class="mt-1 text-sm text-gray-500">Ordenados por unidades vendidas.</p>
-                        </div>
+                <x-card title="Más vendidos del mes" description="Ordenados por unidades vendidas." class="lg:col-span-2">
+                    <x-slot name="action">
                         <a href="{{ route('ventas.index') }}" class="text-sm font-medium text-indigo-700 hover:underline">Ver ventas</a>
-                    </div>
+                    </x-slot>
                     <ol class="divide-y divide-gray-100">
                         @forelse ($productosMasVendidos as $indice => $producto)
                             <li class="flex items-center justify-between gap-3 py-3">
@@ -73,10 +69,10 @@
                                 </div>
                             </li>
                         @empty
-                            <li class="py-10 text-center text-sm text-gray-500">Todavía no hay ventas este mes.</li>
+                            <li class="py-3"><x-empty-state title="Todavía no hay ventas este mes." /></li>
                         @endforelse
                     </ol>
-                </div>
+                </x-card>
             </section>
 
             <section class="overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-gray-200">
@@ -85,10 +81,10 @@
                         <h2 class="font-semibold text-gray-900">Productos críticos</h2>
                         <p class="mt-1 text-sm text-gray-500">Stock bajo, agotados o con vencimiento próximo.</p>
                     </div>
-                    <span class="rounded-full bg-amber-50 px-3 py-1 text-sm font-medium text-amber-800">{{ $totalProductosCriticos }} {{ $totalProductosCriticos === 1 ? 'producto' : 'productos' }}</span>
+                    <x-badge variant="por_vencer" class="px-3 py-1 text-sm">{{ $totalProductosCriticos }} {{ $totalProductosCriticos === 1 ? 'producto' : 'productos' }}</x-badge>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-max w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50 text-left text-sm text-gray-600">
                             <tr>
                                 <th class="px-5 py-3 font-medium">Producto</th>
@@ -106,7 +102,7 @@
                                     $stockBajo = (float) $producto->stock_actual > 0 && (float) $producto->stock_actual <= (float) $producto->stock_minimo;
                                     $porVencer = $producto->fecha_vencimiento && $producto->fecha_vencimiento->lte(today()->addDays(7));
                                 @endphp
-                                <tr>
+                                <tr class="transition-colors hover:bg-gray-50">
                                     <td class="px-5 py-4">
                                         <a href="{{ route('productos.show', $producto) }}" class="font-medium text-indigo-700 hover:underline">{{ $producto->nombre }}</a>
                                         <p class="mt-1 text-xs text-gray-500">SKU: {{ $producto->sku }}</p>
@@ -117,14 +113,14 @@
                                     <td class="px-5 py-4">
                                         <div class="flex flex-wrap gap-1.5">
                                             @if ($agotado)
-                                                <span class="rounded-full bg-red-50 px-2.5 py-1 text-xs font-medium text-red-700">Agotado</span>
+                                                <x-badge variant="agotado">Agotado</x-badge>
                                             @elseif ($stockBajo)
-                                                <span class="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-medium text-amber-800">Stock bajo</span>
+                                                <x-badge variant="stock_bajo">Stock bajo</x-badge>
                                             @endif
                                             @if ($producto->fecha_vencimiento && $producto->fecha_vencimiento->isBefore(today()))
-                                                <span class="rounded-full bg-red-50 px-2.5 py-1 text-xs font-medium text-red-700">Vencido</span>
+                                                <x-badge variant="agotado">Vencido</x-badge>
                                             @elseif ($porVencer)
-                                                <span class="rounded-full bg-orange-50 px-2.5 py-1 text-xs font-medium text-orange-800">Por vencer</span>
+                                                <x-badge variant="por_vencer">Por vencer</x-badge>
                                             @endif
                                         </div>
                                     </td>
@@ -137,7 +133,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <tr><td colspan="6" class="px-5 py-10 text-center text-sm text-gray-500">No hay productos críticos. El inventario está en buen estado.</td></tr>
+                                <tr><td colspan="6" class="p-3"><x-empty-state title="No hay productos críticos." description="El inventario está en buen estado." /></td></tr>
                             @endforelse
                         </tbody>
                     </table>

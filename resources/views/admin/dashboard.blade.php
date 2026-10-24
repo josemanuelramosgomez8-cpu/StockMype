@@ -52,7 +52,7 @@
                                 <time class="text-xs text-gray-500">{{ $registro->created_at->format('d/m/Y H:i') }}</time>
                             </div>
                         @empty
-                            <p class="px-5 py-8 text-center text-sm text-gray-500">Aún no hay actividad administrativa registrada.</p>
+                            <div class="p-3"><x-empty-state title="Aún no hay actividad administrativa registrada." /></div>
                         @endforelse
                     </div>
                 </section>

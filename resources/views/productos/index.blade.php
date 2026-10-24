@@ -10,10 +10,6 @@
 
     <div class="py-8">
         <div class="mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
-            @if (session('status'))
-                <div role="status" class="rounded-md bg-green-50 p-4 text-sm text-green-800">{{ session('status') }}</div>
-            @endif
-
             <form method="GET" action="{{ route('productos.index') }}" class="flex flex-col gap-3 rounded-lg bg-white p-4 shadow-sm sm:flex-row">
                 <label class="sr-only" for="buscar">Buscar producto</label>
                 <input id="buscar" name="buscar" value="{{ request('buscar') }}" placeholder="Buscar por nombre o SKU" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:flex-1">
@@ -31,7 +27,7 @@
 
             <div class="overflow-hidden rounded-lg bg-white shadow-sm">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-max w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50 text-left text-sm text-gray-600">
                             <tr>
                                 <th class="px-5 py-3 font-medium">Producto</th>
@@ -44,7 +40,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-sm">
                             @forelse ($productos as $producto)
-                                <tr>
+                                <tr class="transition-colors hover:bg-gray-50">
                                     <td class="px-5 py-4">
                                         <a href="{{ route('productos.show', $producto) }}" class="font-medium text-indigo-700 hover:underline">{{ $producto->nombre }}</a>
                                         <div class="mt-1 text-xs text-gray-500">SKU: {{ $producto->sku }}</div>
@@ -52,16 +48,16 @@
                                     <td class="px-5 py-4 text-gray-600">{{ $producto->categoria?->nombre ?: 'Sin categoría' }}</td>
                                     <td class="px-5 py-4 text-gray-900">S/ {{ number_format((float) $producto->precio_venta, 2) }}</td>
                                     <td class="px-5 py-4">
-                                        <span class="{{ (float) $producto->stock_actual <= (float) $producto->stock_minimo ? 'font-semibold text-red-700' : 'text-gray-700' }}">
+                                        <x-badge :variant="(float) $producto->stock_actual <= 0 ? 'agotado' : ((float) $producto->stock_actual <= (float) $producto->stock_minimo ? 'stock_bajo' : 'normal')">
                                             {{ rtrim(rtrim(number_format((float) $producto->stock_actual, 3, '.', ''), '0'), '.') }}
                                             {{ $producto->unidad_medida }}
-                                        </span>
+                                        </x-badge>
                                         <div class="mt-1 text-xs text-gray-500">Mínimo: {{ rtrim(rtrim(number_format((float) $producto->stock_minimo, 3, '.', ''), '0'), '.') }}</div>
                                     </td>
                                     <td class="px-5 py-4">
-                                        <span class="rounded-full px-2.5 py-1 text-xs font-medium {{ $producto->activo ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-600' }}">
+                                        <x-badge :variant="$producto->activo ? 'success' : 'neutral'">
                                             {{ $producto->activo ? 'Activo' : 'Inactivo' }}
-                                        </span>
+                                        </x-badge>
                                     </td>
                                     <td class="px-5 py-4">
                                         <div class="flex justify-end gap-3">
@@ -78,7 +74,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <tr><td colspan="6" class="px-5 py-10 text-center text-gray-500">No hay productos que coincidan. Prueba otra búsqueda o registra un producto.</td></tr>
+                                <tr><td colspan="6" class="p-3"><x-empty-state title="No hay productos que coincidan." description="Prueba otra búsqueda o registra un producto." /></td></tr>
                             @endforelse
                         </tbody>
                     </table>

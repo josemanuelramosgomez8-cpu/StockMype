@@ -20,7 +20,7 @@
 
             <div class="overflow-hidden rounded-lg bg-white shadow-sm">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-max w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50 text-left text-sm text-gray-600">
                             <tr>
                                 <th class="px-5 py-3 font-medium">Fecha</th>
@@ -32,7 +32,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-sm">
                             @forelse ($registros as $registro)
-                                <tr>
+                                <tr class="transition-colors hover:bg-gray-50">
                                     <td class="whitespace-nowrap px-5 py-4 text-gray-600">{{ $registro->created_at->format('d/m/Y H:i:s') }}</td>
                                     <td class="px-5 py-4 text-gray-700">{{ $registro->actor_nombre }}</td>
                                     <td class="whitespace-nowrap px-5 py-4 text-gray-700">{{ str_replace('.', ' / ', $registro->evento) }}</td>
@@ -48,7 +48,7 @@
                                     <td class="px-5 py-4 text-gray-600">{{ $registro->ip ?: '—' }}</td>
                                 </tr>
                             @empty
-                                <tr><td colspan="5" class="px-5 py-10 text-center text-gray-500">No hay eventos que coincidan con los filtros.</td></tr>
+                                <tr><td colspan="5" class="p-3"><x-empty-state title="No hay eventos que coincidan con los filtros." /></td></tr>
                             @endforelse
                         </tbody>
                     </table>

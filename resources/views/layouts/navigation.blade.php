@@ -1,188 +1,140 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    @php($alertasSinLeer = Auth::user()->unreadNotifications()->count())
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ Auth::user()->esAdministrador() ? route('admin.dashboard') : route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
+@php
+    $usuario = Auth::user();
+    $enlaceSidebar = 'flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition duration-150';
+    $enlaceActivo = 'bg-emerald-600 text-white shadow-sm';
+    $enlaceInactivo = 'text-gray-300 hover:bg-gray-800 hover:text-white';
+@endphp
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    @if (Auth::user()->esAdministrador())
-                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
-                            Administración
-                        </x-nav-link>
-                        <x-nav-link :href="route('admin.negocios.index')" :active="request()->routeIs('admin.negocios.*')">
-                            Negocios
-                        </x-nav-link>
-                        <x-nav-link :href="route('admin.usuarios.index')" :active="request()->routeIs('admin.usuarios.*')">
-                            Usuarios
-                        </x-nav-link>
-                        <x-nav-link :href="route('admin.auditoria.index')" :active="request()->routeIs('admin.auditoria.*')">
-                            Auditoría
-                        </x-nav-link>
-                    @else
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            Panel principal
-                        </x-nav-link>
-                        <x-nav-link :href="route('productos.index')" :active="request()->routeIs('productos.*')">
-                            Productos
-                        </x-nav-link>
-                        <x-nav-link :href="route('ventas.index')" :active="request()->routeIs('ventas.*')">
-                            Ventas
-                        </x-nav-link>
-                        <x-nav-link :href="route('reportes.index', ['tipo' => 'ventas'])" :active="request()->routeIs('reportes.*')">
-                            Reportes
-                        </x-nav-link>
-                        <x-nav-link :href="route('alertas.index')" :active="request()->routeIs('alertas.*')">
-                            <span class="inline-flex items-center gap-1.5">
-                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 0 0-4.5-5.8V4a1.5 1.5 0 0 0-3 0v1.2A6 6 0 0 0 6 11v3.2a2 2 0 0 1-.6 1.4L4 17h5m6 0a3 3 0 0 1-6 0m6 0H9" />
-                                </svg>
-                                Alertas
-                                @if ($alertasSinLeer > 0)
-                                    <span class="rounded-full bg-red-600 px-1.5 py-0.5 text-xs leading-none text-white">{{ $alertasSinLeer }}</span>
-                                @endif
-                            </span>
-                        </x-nav-link>
-                        @if (Auth::user()->esDueno())
-                            <x-nav-link :href="route('movimientos.index')" :active="request()->routeIs('movimientos.*')">
-                                Movimientos
-                            </x-nav-link>
-                            <x-nav-link :href="route('categorias.index')" :active="request()->routeIs('categorias.*')">
-                                Categorías
-                            </x-nav-link>
-                            <x-nav-link :href="route('proveedores.index')" :active="request()->routeIs('proveedores.*')">
-                                Proveedores
-                            </x-nav-link>
-                        @endif
-                    @endif
-                </div>
-            </div>
+<div x-cloak
+     x-show="sidebarOpen"
+     x-transition.opacity
+     @click="sidebarOpen = false"
+     class="fixed inset-0 z-40 bg-gray-950/60 lg:hidden"
+     aria-hidden="true"
+     style="display: none;"></div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+<aside class="fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-gray-800 bg-gray-900 text-white shadow-xl transition-transform duration-300 ease-in-out lg:translate-x-0"
+       :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+       aria-label="Navegación principal">
+    <div class="flex h-20 shrink-0 items-center justify-between border-b border-gray-800 px-5">
+        <a href="{{ $usuario->esAdministrador() ? route('admin.dashboard') : route('dashboard') }}" class="flex min-w-0 items-center gap-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-sm">
+                <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5v-9Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m3.5 7.7 8.5 4.2 8.5-4.2M12 12v8.5M7.5 5.3l9 4.5" />
+                </svg>
+            </span>
+            <span class="truncate text-lg font-bold tracking-tight">StockMype</span>
+        </a>
+        <button type="button"
+                @click="sidebarOpen = false"
+                class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-400 lg:hidden"
+                aria-label="Cerrar menú de navegación">
+            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 18 12-12M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
 
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            Mi perfil
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                Cerrar sesión
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    <nav class="flex-1 space-y-1 overflow-y-auto px-3 py-5" aria-label="Secciones">
+        @if ($usuario->esAdministrador())
+            <a href="{{ route('admin.dashboard') }}" @class([$enlaceSidebar, request()->routeIs('admin.dashboard') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
+                <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 13.5h8V3H3v10.5ZM13 21h8V10h-8v11ZM13 3v5h8V3h-8ZM3 21h8v-5H3v5Z" />
+                </svg>
+                <span>Administración</span>
+            </a>
+            <a href="{{ route('admin.negocios.index') }}" @class([$enlaceSidebar, request()->routeIs('admin.negocios.*') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
+                <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4M8 9v.01M8 12v.01M8 15v.01M8 18v.01M14 9v.01M14 12v.01M14 15v.01M14 18v.01M17 14v.01M17 17v.01" />
+                </svg>
+                <span>Negocios</span>
+            </a>
+            <a href="{{ route('admin.usuarios.index') }}" @class([$enlaceSidebar, request()->routeIs('admin.usuarios.*') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
+                <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m12-13a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm2 2a4 4 0 0 1 0 8m2 3v-2a4 4 0 0 0-3-3.87" />
+                </svg>
+                <span>Usuarios</span>
+            </a>
+            <a href="{{ route('admin.auditoria.index') }}" @class([$enlaceSidebar, request()->routeIs('admin.auditoria.*') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
+                <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v4l3 2m6-2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                <span>Auditoría</span>
+            </a>
+        @else
+            <a href="{{ route('dashboard') }}" @class([$enlaceSidebar, request()->routeIs('dashboard') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
+                <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z" />
+                </svg>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ route('productos.index') }}" @class([$enlaceSidebar, request()->routeIs('productos.*') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
+                <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m4 7 8-4 8 4-8 4-8-4Zm0 5 8 4 8-4m-16 5 8 4 8-4M4 7v10m16-10v10m-8-6v10" />
+                </svg>
+                <span>Productos</span>
+            </a>
+            @if ($usuario->esDueno())
+                <a href="{{ route('categorias.index') }}" @class([$enlaceSidebar, request()->routeIs('categorias.*') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
+                    <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20 13V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h7m7-7h-8m0 0 3-3m-3 3 3 3m3 4h.01M8 8h.01M8 12h.01M8 16h.01" />
                     </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            @if (Auth::user()->esAdministrador())
-                <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
-                    Administración
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('admin.negocios.index')" :active="request()->routeIs('admin.negocios.*')">
-                    Negocios
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('admin.usuarios.index')" :active="request()->routeIs('admin.usuarios.*')">
-                    Usuarios
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('admin.auditoria.index')" :active="request()->routeIs('admin.auditoria.*')">
-                    Auditoría
-                </x-responsive-nav-link>
-            @else
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    Panel principal
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('productos.index')" :active="request()->routeIs('productos.*')">
-                    Productos
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('ventas.index')" :active="request()->routeIs('ventas.*')">
-                    Ventas
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('reportes.index', ['tipo' => 'ventas'])" :active="request()->routeIs('reportes.*')">
-                    Reportes
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('alertas.index')" :active="request()->routeIs('alertas.*')">
-                    Alertas
-                    @if ($alertasSinLeer > 0)
-                        <span class="ms-2 rounded-full bg-red-600 px-1.5 py-0.5 text-xs leading-none text-white">{{ $alertasSinLeer }}</span>
-                    @endif
-                </x-responsive-nav-link>
-                @if (Auth::user()->esDueno())
-                    <x-responsive-nav-link :href="route('movimientos.index')" :active="request()->routeIs('movimientos.*')">
-                        Movimientos
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('categorias.index')" :active="request()->routeIs('categorias.*')">
-                        Categorías
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('proveedores.index')" :active="request()->routeIs('proveedores.*')">
-                        Proveedores
-                    </x-responsive-nav-link>
-                @endif
+                    <span>Categorías</span>
+                </a>
+                <a href="{{ route('proveedores.index') }}" @class([$enlaceSidebar, request()->routeIs('proveedores.*') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
+                    <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 7h11v11H3V7Zm11 4h4l3 3v4h-7v-7Zm-7 9a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm11 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                    </svg>
+                    <span>Proveedores</span>
+                </a>
+                <a href="{{ route('movimientos.index') }}" @class([$enlaceSidebar, request()->routeIs('movimientos.*') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
+                    <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 7h14m0 0-4-4m4 4-4 4M17 17H3m0 0 4 4m-4-4 4-4" />
+                    </svg>
+                    <span>Movimientos</span>
+                </a>
             @endif
+            <a href="{{ route('ventas.index') }}" @class([$enlaceSidebar, request()->routeIs('ventas.*') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
+                <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 3h2l2.4 12.2A2 2 0 0 0 9.4 17h8.8a2 2 0 0 0 2-1.6L22 8H6m4 13h.01M18 21h.01" />
+                </svg>
+                <span>Ventas</span>
+            </a>
+            <a href="{{ route('alertas.index') }}" @class([$enlaceSidebar, request()->routeIs('alertas.*') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
+                <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 0 0-4.5-5.8V4a1.5 1.5 0 0 0-3 0v1.2A6 6 0 0 0 6 11v3.2a2 2 0 0 1-.6 1.4L4 17h5m6 0a3 3 0 0 1-6 0m6 0H9" />
+                </svg>
+                <span class="flex-1">Alertas</span>
+                @if ($usuario->unreadNotifications()->count() > 0)
+                    <span class="inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs font-semibold leading-none text-white">{{ $usuario->unreadNotifications()->count() }}</span>
+                @endif
+            </a>
+            <a href="{{ route('reportes.index', ['tipo' => 'ventas']) }}" @class([$enlaceSidebar, request()->routeIs('reportes.*') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
+                <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 17v-2m3 2V7m3 10v-5m2 9H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z" />
+                </svg>
+                <span>Reportes</span>
+            </a>
+        @endif
+    </nav>
+
+    <div class="shrink-0 border-t border-gray-800 p-4">
+        <div class="mb-3 flex min-w-0 items-center gap-3 px-1">
+            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-700 text-sm font-semibold text-white">{{ mb_strtoupper(mb_substr($usuario->name, 0, 1)) }}</span>
+            <span class="min-w-0">
+                <span class="block truncate text-sm font-semibold text-white">{{ $usuario->name }}</span>
+                <span class="block text-xs text-gray-400">{{ $usuario->esAdministrador() ? 'Administrador' : ($usuario->esDueno() ? 'Dueño' : 'Empleado') }}</span>
+            </span>
         </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    Mi perfil
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        Cerrar sesión
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="flex min-h-11 w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-300 transition hover:bg-gray-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                <svg class="h-5 w-5 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4m-4-4 4-5-4-5m4 5H3" />
+                </svg>
+                <span>Cerrar sesión</span>
+            </button>
+        </form>
     </div>
-</nav>
+</aside>

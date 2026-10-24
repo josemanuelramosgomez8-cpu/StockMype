@@ -5,10 +5,6 @@
 
     <div class="py-8">
         <div class="mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
-            @if (session('status'))
-                <div role="status" class="rounded-md bg-green-50 p-4 text-sm text-green-800">{{ session('status') }}</div>
-            @endif
-
             <div class="overflow-hidden rounded-lg bg-white shadow-sm">
                 <div class="divide-y divide-gray-100">
                     @forelse ($alertas as $alerta)
@@ -16,12 +12,13 @@
                             <div class="min-w-0">
                                 <div class="flex flex-wrap items-center gap-2">
                                     <h2 class="font-semibold text-gray-900">{{ ucfirst(str_replace('_', ' ', $alerta->tipo)) }}</h2>
+                                    <x-badge :variant="$alerta->tipo">{{ $alerta->tipo === 'stock_bajo' ? 'Stock bajo' : ($alerta->tipo === 'agotado' ? 'Agotado' : 'Por vencer') }}</x-badge>
                                     @if ($alerta->resuelta_at)
-                                        <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-600">Normalizada</span>
+                                        <x-badge variant="neutral">Normalizada</x-badge>
                                     @else
-                                        <span class="rounded-full px-2.5 py-1 text-xs font-medium {{ $alerta->estado === 'pendiente' ? 'bg-amber-50 text-amber-800' : 'bg-green-50 text-green-700' }}">
+                                        <x-badge :variant="$alerta->estado === 'pendiente' ? 'warning' : 'success'">
                                             {{ $alerta->estado === 'pendiente' ? 'Pendiente' : 'Leída' }}
-                                        </span>
+                                        </x-badge>
                                     @endif
                                 </div>
                                 <p class="mt-2 text-sm text-gray-700">{{ $alerta->mensaje }}</p>
@@ -36,12 +33,12 @@
                                 <form method="POST" action="{{ route('alertas.leida', $alerta) }}">
                                     @csrf
                                     @method('PATCH')
-                                    <button type="submit" class="whitespace-nowrap rounded-md border border-indigo-700 px-3 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-50">Marcar como leída</button>
+                                    <x-button type="submit" variant="secondary" class="whitespace-nowrap">Marcar como leída</x-button>
                                 </form>
                             @endif
                         </article>
                     @empty
-                        <p class="px-5 py-10 text-center text-sm text-gray-500">No hay alertas de inventario.</p>
+                        <div class="p-3"><x-empty-state title="No hay alertas de inventario." description="Las alertas nuevas aparecerán aquí cuando el inventario requiera atención." /></div>
                     @endforelse
                 </div>
                 @if ($alertas->hasPages())

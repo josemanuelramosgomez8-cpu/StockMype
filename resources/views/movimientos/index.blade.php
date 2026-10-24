@@ -8,13 +8,9 @@
 
     <div class="py-8">
         <div class="mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
-            @if (session('status'))
-                <div role="status" class="rounded-md bg-green-50 p-4 text-sm text-green-800">{{ session('status') }}</div>
-            @endif
-
             <div class="overflow-hidden rounded-lg bg-white shadow-sm">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-max w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50 text-left text-sm text-gray-600">
                             <tr>
                                 <th class="px-5 py-3 font-medium">Fecha</th>
@@ -28,17 +24,17 @@
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-sm">
                             @forelse ($movimientos as $movimiento)
-                                <tr>
+                                <tr class="transition-colors hover:bg-gray-50">
                                     <td class="whitespace-nowrap px-5 py-4 text-gray-600">{{ $movimiento->created_at->format('d/m/Y H:i') }}</td>
                                     <td class="px-5 py-4 font-medium text-gray-900">{{ $movimiento->producto?->nombre ?? 'Producto eliminado' }}</td>
-                                    <td class="px-5 py-4 capitalize text-gray-700">{{ str_replace('_', ' ', $movimiento->tipo) }}</td>
+                                    <td class="px-5 py-4"><x-badge :variant="$movimiento->tipo === 'entrada' ? 'success' : ($movimiento->tipo === 'salida' ? 'warning' : 'neutral')">{{ str_replace('_', ' ', $movimiento->tipo) }}</x-badge></td>
                                     <td class="px-5 py-4 text-gray-700">{{ $movimiento->cantidad }}</td>
                                     <td class="px-5 py-4 text-gray-700">{{ $movimiento->stock_resultante }}</td>
                                     <td class="px-5 py-4 text-gray-600">{{ $movimiento->user?->name ?? 'Usuario eliminado' }}</td>
                                     <td class="px-5 py-4 text-right"><a href="{{ route('movimientos.show', $movimiento) }}" class="font-medium text-indigo-700 hover:underline">Ver</a></td>
                                 </tr>
                             @empty
-                                <tr><td colspan="7" class="px-5 py-10 text-center text-gray-500">Aún no hay movimientos registrados.</td></tr>
+                                <tr><td colspan="7" class="p-3"><x-empty-state title="Aún no hay movimientos registrados." /></td></tr>
                             @endforelse
                         </tbody>
                     </table>

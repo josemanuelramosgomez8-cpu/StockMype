@@ -8,9 +8,6 @@
 
     <div class="py-8">
         <div class="mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
-            @if (session('status'))
-                <div role="status" class="rounded-md bg-green-50 p-4 text-sm text-green-800">{{ session('status') }}</div>
-            @endif
             @if ($errors->has('negocio'))
                 <div role="alert" class="rounded-md bg-red-50 p-4 text-sm text-red-800">{{ $errors->first('negocio') }}</div>
             @endif
@@ -35,10 +32,10 @@
 
             <div class="overflow-hidden rounded-lg bg-white shadow-sm">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-max w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50 text-left text-sm text-gray-600">
                             <tr>
-                                <th class="px-5 py-3 font-medium">Negocio</th>
+                                <th class="min-w-64 px-5 py-3 font-medium">Negocio</th>
                                 <th class="px-5 py-3 font-medium">Rubro</th>
                                 <th class="px-5 py-3 font-medium">RUC</th>
                                 <th class="px-5 py-3 font-medium">Usuarios</th>
@@ -49,7 +46,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-sm">
                             @forelse ($negocios as $negocio)
-                                <tr>
+                                <tr class="transition-colors hover:bg-gray-50">
                                     <td class="px-5 py-4">
                                         <div class="font-medium text-gray-900">{{ $negocio->nombre }}</div>
                                         <div class="mt-1 text-xs text-gray-500">{{ $negocio->email ?: $negocio->direccion ?: 'Sin datos de contacto' }}</div>
@@ -59,9 +56,9 @@
                                     <td class="px-5 py-4 text-gray-700">{{ $negocio->users_count }}</td>
                                     <td class="px-5 py-4 text-gray-700">{{ $negocio->productos_count }}</td>
                                     <td class="px-5 py-4">
-                                        <span class="rounded-full px-2.5 py-1 text-xs font-medium {{ $negocio->activo ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700' }}">
+                                        <x-badge :variant="$negocio->activo ? 'success' : 'danger'">
                                             {{ $negocio->activo ? 'Activo' : 'Suspendido' }}
-                                        </span>
+                                        </x-badge>
                                     </td>
                                     <td class="px-5 py-4">
                                         <div class="flex justify-end gap-3">
@@ -83,7 +80,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <tr><td colspan="7" class="px-5 py-10 text-center text-gray-500">No hay negocios registrados que coincidan con la búsqueda.</td></tr>
+                                <tr><td colspan="7" class="p-3"><x-empty-state title="No hay negocios registrados que coincidan con la búsqueda." /></td></tr>
                             @endforelse
                         </tbody>
                     </table>

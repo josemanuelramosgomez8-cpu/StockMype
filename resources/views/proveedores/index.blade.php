@@ -8,16 +8,13 @@
 
     <div class="py-8">
         <div class="mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
-            @if (session('status'))
-                <div role="status" class="rounded-md bg-green-50 p-4 text-sm text-green-800">{{ session('status') }}</div>
-            @endif
             @if ($errors->has('proveedor'))
                 <div role="alert" class="rounded-md bg-red-50 p-4 text-sm text-red-800">{{ $errors->first('proveedor') }}</div>
             @endif
 
             <div class="overflow-hidden rounded-lg bg-white shadow-sm">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-max w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50 text-left text-sm text-gray-600">
                             <tr>
                                 <th class="px-5 py-3 font-medium">Proveedor</th>
@@ -30,7 +27,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-sm">
                             @forelse ($proveedores as $proveedor)
-                                <tr>
+                                <tr class="transition-colors hover:bg-gray-50">
                                     <td class="px-5 py-4 font-medium text-gray-900">{{ $proveedor->nombre }}</td>
                                     <td class="px-5 py-4 text-gray-600">{{ $proveedor->ruc ?: '—' }}</td>
                                     <td class="px-5 py-4 text-gray-600">{{ $proveedor->contacto ?: '—' }}</td>
@@ -50,7 +47,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <tr><td colspan="6" class="px-5 py-10 text-center text-gray-500">Aún no tienes proveedores registrados.</td></tr>
+                                <tr><td colspan="6" class="p-3"><x-empty-state title="Aún no tienes proveedores registrados." /></td></tr>
                             @endforelse
                         </tbody>
                     </table>

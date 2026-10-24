@@ -57,7 +57,7 @@
                         <p class="mt-1 text-sm text-gray-500">{{ \Carbon\Carbon::parse($desde)->format('d/m/Y') }} al {{ \Carbon\Carbon::parse($hasta)->format('d/m/Y') }}</p>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
+                        <table class="min-w-max w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50 text-left text-sm text-gray-600">
                                 <tr>
                                     <th class="px-5 py-3 font-medium">N.° venta</th>
@@ -71,17 +71,17 @@
                             </thead>
                             <tbody class="divide-y divide-gray-100 text-sm">
                                 @forelse ($registros as $venta)
-                                    <tr>
+                                    <tr class="transition-colors hover:bg-gray-50">
                                         <td class="whitespace-nowrap px-5 py-4 font-medium text-gray-900">{{ $venta->numero }}</td>
                                         <td class="whitespace-nowrap px-5 py-4 text-gray-600">{{ $venta->fecha_venta->format('d/m/Y H:i') }}</td>
                                         <td class="px-5 py-4 text-gray-700">{{ $venta->user?->name ?? 'Usuario eliminado' }}</td>
-                                        <td class="px-5 py-4 capitalize text-gray-700">{{ $venta->estado }}</td>
+                                        <td class="px-5 py-4"><x-badge variant="success">{{ ucfirst($venta->estado) }}</x-badge></td>
                                         <td class="whitespace-nowrap px-5 py-4 text-right text-gray-700">S/ {{ number_format((float) $venta->subtotal, 2) }}</td>
                                         <td class="whitespace-nowrap px-5 py-4 text-right text-gray-700">S/ {{ number_format((float) $venta->descuento, 2) }}</td>
                                         <td class="whitespace-nowrap px-5 py-4 text-right font-semibold text-gray-900">S/ {{ number_format((float) $venta->total, 2) }}</td>
                                     </tr>
                                 @empty
-                                    <tr><td colspan="7" class="px-5 py-10 text-center text-sm text-gray-500">No hay ventas en este período.</td></tr>
+                                    <tr><td colspan="7" class="p-3"><x-empty-state title="No hay ventas en este período." /></td></tr>
                                 @endforelse
                             </tbody>
                         </table>
@@ -116,7 +116,7 @@
                         <p class="mt-1 text-sm text-gray-500">{{ \Carbon\Carbon::parse($desde)->format('d/m/Y') }} al {{ \Carbon\Carbon::parse($hasta)->format('d/m/Y') }}</p>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
+                        <table class="min-w-max w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50 text-left text-sm text-gray-600">
                                 <tr>
                                     <th class="px-5 py-3 font-medium">Fecha</th>
@@ -131,13 +131,13 @@
                             </thead>
                             <tbody class="divide-y divide-gray-100 text-sm">
                                 @forelse ($registros as $movimiento)
-                                    <tr>
+                                    <tr class="transition-colors hover:bg-gray-50">
                                         <td class="whitespace-nowrap px-5 py-4 text-gray-600">{{ $movimiento->created_at->format('d/m/Y H:i') }}</td>
                                         <td class="px-5 py-4">
                                             <p class="font-medium text-gray-900">{{ $movimiento->producto?->nombre ?? 'Producto eliminado' }}</p>
                                             <p class="text-xs text-gray-500">{{ $movimiento->producto?->sku ?: 'Sin SKU' }}</p>
                                         </td>
-                                        <td class="px-5 py-4 capitalize text-gray-700">{{ $movimiento->tipo }}</td>
+                                        <td class="px-5 py-4"><x-badge :variant="$movimiento->tipo === 'entrada' ? 'success' : ($movimiento->tipo === 'salida' ? 'warning' : 'neutral')">{{ ucfirst(str_replace('_', ' ', $movimiento->tipo)) }}</x-badge></td>
                                         <td class="whitespace-nowrap px-5 py-4 text-right text-gray-700">{{ $movimiento->cantidad }} {{ $movimiento->producto?->unidad_medida }}</td>
                                         <td class="whitespace-nowrap px-5 py-4 text-right text-gray-700">{{ $movimiento->stock_anterior }}</td>
                                         <td class="whitespace-nowrap px-5 py-4 text-right font-medium text-gray-900">{{ $movimiento->stock_resultante }}</td>
@@ -145,7 +145,7 @@
                                         <td class="px-5 py-4 text-gray-600">{{ $movimiento->user?->name ?? 'Usuario eliminado' }}</td>
                                     </tr>
                                 @empty
-                                    <tr><td colspan="8" class="px-5 py-10 text-center text-sm text-gray-500">No hay movimientos en este período.</td></tr>
+                                    <tr><td colspan="8" class="p-3"><x-empty-state title="No hay movimientos en este período." /></td></tr>
                                 @endforelse
                             </tbody>
                         </table>

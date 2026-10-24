@@ -8,9 +8,6 @@
 
     <div class="py-8">
         <div class="mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
-            @if (session('status'))
-                <div role="status" class="rounded-md bg-green-50 p-4 text-sm text-green-800">{{ session('status') }}</div>
-            @endif
             @if ($errors->has('usuario'))
                 <div role="alert" class="rounded-md bg-red-50 p-4 text-sm text-red-800">{{ $errors->first('usuario') }}</div>
             @endif
@@ -43,7 +40,7 @@
 
             <div class="overflow-hidden rounded-lg bg-white shadow-sm">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-max w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50 text-left text-sm text-gray-600">
                             <tr>
                                 <th class="px-5 py-3 font-medium">Usuario</th>
@@ -56,7 +53,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-sm">
                             @forelse ($usuarios as $usuario)
-                                <tr>
+                                <tr class="transition-colors hover:bg-gray-50">
                                     <td class="px-5 py-4">
                                         <div class="font-medium text-gray-900">{{ $usuario->name }}</div>
                                         <div class="mt-1 text-xs text-gray-500">{{ $usuario->email }}</div>
@@ -71,9 +68,9 @@
                                     <td class="px-5 py-4 text-gray-700">{{ $usuario->negocio?->nombre ?: 'Sin negocio' }}</td>
                                     <td class="px-5 py-4 text-gray-600">{{ $usuario->created_at?->format('d/m/Y') }}</td>
                                     <td class="px-5 py-4">
-                                        <span class="rounded-full px-2.5 py-1 text-xs font-medium {{ $usuario->activo ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700' }}">
+                                        <x-badge :variant="$usuario->activo ? 'success' : 'danger'">
                                             {{ $usuario->activo ? 'Activo' : 'Suspendido' }}
-                                        </span>
+                                        </x-badge>
                                     </td>
                                     <td class="px-5 py-4">
                                         <div class="flex justify-end gap-3">
@@ -97,7 +94,7 @@
                                     </td>
                                 </tr>
                             @empty
-                                <tr><td colspan="6" class="px-5 py-10 text-center text-gray-500">No hay usuarios que coincidan con los filtros.</td></tr>
+                                <tr><td colspan="6" class="p-3"><x-empty-state title="No hay usuarios que coincidan con los filtros." /></td></tr>
                             @endforelse
                         </tbody>
                     </table>

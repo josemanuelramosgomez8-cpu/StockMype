@@ -8,10 +8,6 @@
 
     <div class="py-8">
         <div class="mx-auto max-w-5xl space-y-5 px-4 sm:px-6 lg:px-8">
-            @if (session('status'))
-                <div role="status" class="rounded-md bg-green-50 p-4 text-sm text-green-800">{{ session('status') }}</div>
-            @endif
-
             <section class="grid gap-4 rounded-lg bg-white p-5 shadow-sm sm:grid-cols-3">
                 <div><p class="text-sm text-gray-500">Fecha</p><p class="mt-1 font-medium text-gray-900">{{ $venta->fecha_venta->format('d/m/Y H:i') }}</p></div>
                 <div><p class="text-sm text-gray-500">Atendido por</p><p class="mt-1 font-medium text-gray-900">{{ $venta->user?->name ?? 'Usuario eliminado' }}</p></div>
@@ -20,7 +16,7 @@
 
             <section class="overflow-hidden rounded-lg bg-white shadow-sm">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-max w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50 text-left text-sm text-gray-600">
                             <tr>
                                 <th class="px-5 py-3 font-medium">Producto</th>
@@ -32,7 +28,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-100 text-sm">
                             @foreach ($venta->detalles as $detalle)
-                                <tr>
+                                <tr class="transition-colors hover:bg-gray-50">
                                     <td class="px-5 py-4">
                                         <p class="font-medium text-gray-900">{{ $detalle->nombre_producto }}</p>
                                         @if ($detalle->sku)
