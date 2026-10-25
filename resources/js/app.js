@@ -5,6 +5,7 @@ import Chart from 'chart.js/auto';
 
 window.Alpine = Alpine;
 
+// Contador animado para las tarjetas del dashboard
 Alpine.data('animatedCounter', (target, decimals = 0, prefix = '') => ({
     value: target,
 
@@ -45,6 +46,7 @@ Alpine.start();
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Aparición suave de secciones de la landing al hacer scroll
 if (!reducedMotion && 'IntersectionObserver' in window) {
     document.body.classList.add('landing-reveal-ready');
 
@@ -62,6 +64,7 @@ if (!reducedMotion && 'IntersectionObserver' in window) {
     });
 }
 
+// Imágenes con respaldo (placeholder) si el archivo no existe
 document.querySelectorAll('[data-image-slot]').forEach((slot) => {
     const image = slot.querySelector('[data-slot-image]');
     const fallback = slot.querySelector('[data-image-fallback]');
@@ -89,6 +92,7 @@ document.querySelectorAll('[data-image-slot]').forEach((slot) => {
     }
 });
 
+// Gráfico de ventas de los últimos 7 días (verde esmeralda)
 const ventasCanvas = document.getElementById('ventas-por-dia-chart');
 const ventasData = document.getElementById('ventas-por-dia-data');
 
@@ -106,12 +110,17 @@ if (ventasCanvas && ventasData) {
             datasets: [{
                 label: 'Ventas',
                 data: ventasPorDia.map((dia) => dia.total),
-                borderColor: '#4f46e5',
-                backgroundColor: 'rgba(79, 70, 229, 0.12)',
+                borderColor: '#059669',
+                backgroundColor: 'rgba(5, 150, 105, 0.12)',
+                borderWidth: 2.5,
                 fill: true,
                 tension: 0.35,
                 pointRadius: 4,
                 pointHoverRadius: 6,
+                pointBackgroundColor: '#ffffff',
+                pointBorderColor: '#059669',
+                pointBorderWidth: 2,
+                pointHoverBackgroundColor: '#059669',
             }],
         },
         options: {
@@ -119,7 +128,7 @@ if (ventasCanvas && ventasData) {
             maintainAspectRatio: false,
             animation: window.matchMedia('(prefers-reduced-motion: reduce)').matches
                 ? false
-                : { duration: 400 },
+                : { duration: 600, easing: 'easeOutQuart' },
             interaction: {
                 intersect: false,
                 mode: 'index',
@@ -129,15 +138,30 @@ if (ventasCanvas && ventasData) {
                     display: false,
                 },
                 tooltip: {
+                    backgroundColor: '#064e3b',
+                    padding: 10,
+                    displayColors: false,
                     callbacks: {
                         label: (context) => formatoSoles.format(context.parsed.y),
                     },
                 },
             },
             scales: {
+                x: {
+                    grid: {
+                        display: false,
+                    },
+                },
                 y: {
                     beginAtZero: true,
+                    border: {
+                        display: false,
+                    },
+                    grid: {
+                        color: '#f3f4f6',
+                    },
                     ticks: {
+                        maxTicksLimit: 5,
                         callback: (value) => formatoSoles.format(value),
                     },
                 },
