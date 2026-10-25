@@ -6,6 +6,7 @@ use App\Models\Alerta;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 class AlertaInventarioNotification extends Notification
 {
@@ -20,12 +21,17 @@ class AlertaInventarioNotification extends Notification
 
     public function toMail(object $notifiable): MailMessage
     {
+        // Primer nombre para un saludo más cercano
+        $nombre = Str::before($notifiable->name, ' ');
+
         return (new MailMessage)
+            ->success() // botón verde en lugar del negro por defecto
             ->subject('Alerta de inventario: '.$this->alerta->producto?->nombre)
-            ->greeting('Hola '.$notifiable->name)
+            ->greeting('Hola '.$nombre.',')
             ->line($this->alerta->mensaje)
             ->action('Revisar alertas', route('alertas.index'))
-            ->line('Notificación automática de StockMype.');
+            ->line('Notificación automática de StockMype.')
+            ->salutation('Saludos, equipo StockMype');
     }
 
     public function toArray(object $notifiable): array
