@@ -3,6 +3,11 @@
     $enlaceSidebar = 'flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition duration-150';
     $enlaceActivo = 'bg-emerald-600 text-white shadow-sm';
     $enlaceInactivo = 'text-gray-300 hover:bg-gray-800 hover:text-white';
+
+    // Mismo cálculo que el dashboard y la campanita: alertas pendientes del negocio
+    $alertasPendientesSidebar = $usuario->esAdministrador()
+        ? 0
+        : $usuario->negocio->alertas()->where('estado', 'pendiente')->count();
 @endphp
 
 <div x-cloak
@@ -106,8 +111,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 0 0-4.5-5.8V4a1.5 1.5 0 0 0-3 0v1.2A6 6 0 0 0 6 11v3.2a2 2 0 0 1-.6 1.4L4 17h5m6 0a3 3 0 0 1-6 0m6 0H9" />
                 </svg>
                 <span class="flex-1">Alertas</span>
-                @if ($usuario->unreadNotifications()->count() > 0)
-                    <span class="inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs font-semibold leading-none text-white">{{ $usuario->unreadNotifications()->count() }}</span>
+                @if ($alertasPendientesSidebar > 0)
+                    <span class="inline-flex min-h-5 min-w-5 items-center justify-center rounded-full bg-red-600 px-1 text-xs font-semibold leading-none text-white">{{ $alertasPendientesSidebar }}</span>
                 @endif
             </a>
             <a href="{{ route('reportes.index', ['tipo' => 'ventas']) }}" @class([$enlaceSidebar, request()->routeIs('reportes.*') ? $enlaceActivo : $enlaceInactivo]) @click="sidebarOpen = false">
