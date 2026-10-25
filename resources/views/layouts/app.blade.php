@@ -40,7 +40,8 @@
 
                         @unless (Auth::user()->esAdministrador())
                             @php
-                                $alertasSinLeer = Auth::user()->unreadNotifications()->count();
+                                // Mismo cálculo que el dashboard: alertas pendientes del negocio
+                                $alertasSinLeer = Auth::user()->negocio->alertas()->where('estado', 'pendiente')->count();
                                 $ultimasNotificaciones = Auth::user()->notifications()->latest()->limit(5)->get();
                             @endphp
                             <div class="relative shrink-0">
